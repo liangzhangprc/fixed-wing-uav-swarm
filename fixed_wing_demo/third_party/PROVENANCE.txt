@@ -1,0 +1,4 @@
+RC Cessna assets from https://github.com/PX4/PX4-gazebo-models
+Commit: 5577035667afb4b63fe1f966fb1a58bbb05d905b
+Original model.sdf retained; demo model uses its visuals with custom dynamics.
+BSD-3-Clause; see PX4_LICENSE.

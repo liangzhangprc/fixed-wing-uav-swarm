@@ -1,0 +1,2484 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sdf version="1.10">
+  <world name="fixed_wing_airfield">
+    <gravity>0 0 -9.81</gravity>
+    <physics name="physics" type="ignored">
+      <max_step_size>0.004</max_step_size>
+      <real_time_factor>@REAL_TIME_FACTOR@</real_time_factor>
+    </physics>
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics" />
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands" />
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster" />
+    <gui fullscreen="0">
+      <plugin filename="MinimalScene" name="3D View">
+        <gz-gui>
+          <title>3D View</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="string" key="state">docked</property>
+        </gz-gui>
+        <engine>ogre</engine>
+        <scene>scene</scene>
+        <ambient_light>0.4 0.4 0.4</ambient_light>
+        <background_color>0.8 0.8 0.8</background_color>
+        <camera_pose>-8 -6 4 0 0.4 0.65</camera_pose>
+      </plugin>
+      <plugin filename="EntityContextMenuPlugin" name="Entity context menu">
+        <gz-gui>
+          <property key="state" type="string">floating</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="GzSceneManager" name="Scene Manager">
+        <gz-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="InteractiveViewControl" name="Interactive view control">
+        <gz-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="CameraTracking" name="Camera Tracking">
+        <gz-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </gz-gui>
+        <follow_target>fixed_wing</follow_target>
+        <follow_offset>-8 -6 4</follow_offset>
+        <follow_pgain>0.12</follow_pgain>
+      </plugin>
+      <plugin filename="MarkerManager" name="Marker manager">
+        <gz-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="SelectEntities" name="Select Entities">
+        <gz-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="Spawn" name="Spawn Entities">
+        <gz-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="VisualizationCapabilities" name="Visualization Capabilities">
+        <gz-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="WorldControl" name="World control">
+        <gz-gui>
+          <title>World control</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="bool" key="resizable">false</property>
+          <property type="double" key="height">72</property>
+          <property type="double" key="z">1</property>
+          <property type="string" key="state">floating</property>
+          <anchors target="3D View">
+            <line own="left" target="left" />
+            <line own="bottom" target="bottom" />
+          </anchors>
+        </gz-gui>
+        <play_pause>true</play_pause>
+        <step>true</step>
+        <start_paused>true</start_paused>
+        <use_event>true</use_event>
+      </plugin>
+      <plugin filename="WorldStats" name="World stats">
+        <gz-gui>
+          <title>World stats</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="bool" key="resizable">false</property>
+          <property type="double" key="height">110</property>
+          <property type="double" key="width">290</property>
+          <property type="double" key="z">1</property>
+          <property type="string" key="state">floating</property>
+          <anchors target="3D View">
+            <line own="right" target="right" />
+            <line own="bottom" target="bottom" />
+          </anchors>
+        </gz-gui>
+        <sim_time>true</sim_time>
+        <real_time>true</real_time>
+        <real_time_factor>true</real_time_factor>
+        <iterations>true</iterations>
+      </plugin>
+      <plugin filename="Shapes" name="Shapes">
+        <gz-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="x" type="double">0</property>
+          <property key="y" type="double">0</property>
+          <property key="width" type="double">300</property>
+          <property key="height" type="double">50</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+          <property key="cardBackground" type="string">#666666</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="Lights" name="Lights">
+        <gz-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="x" type="double">300</property>
+          <property key="y" type="double">0</property>
+          <property key="width" type="double">150</property>
+          <property key="height" type="double">50</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+          <property key="cardBackground" type="string">#666666</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="TransformControl" name="Transform control">
+        <gz-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="x" type="double">0</property>
+          <property key="y" type="double">50</property>
+          <property key="width" type="double">250</property>
+          <property key="height" type="double">50</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+          <property key="cardBackground" type="string">#777777</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="Screenshot" name="Screenshot">
+        <gz-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="x" type="double">250</property>
+          <property key="y" type="double">50</property>
+          <property key="width" type="double">50</property>
+          <property key="height" type="double">50</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+          <property key="cardBackground" type="string">#777777</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="CopyPaste" name="CopyPaste">
+        <gz-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="x" type="double">300</property>
+          <property key="y" type="double">50</property>
+          <property key="width" type="double">100</property>
+          <property key="height" type="double">50</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+          <property key="cardBackground" type="string">#777777</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="ComponentInspector" name="Component inspector">
+        <gz-gui>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="string" key="state">docked</property>
+        </gz-gui>
+      </plugin>
+      <plugin filename="EntityTree" name="Entity tree">
+        <gz-gui>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="string" key="state">docked</property>
+        </gz-gui>
+      </plugin>
+    </gui>
+    <scene>
+      <ambient>0.55 0.55 0.55 1</ambient>
+      <background>0.65 0.80 0.93 1</background>
+      <shadows>false</shadows>
+    </scene>
+    <light name="sun" type="directional">
+      <pose>0 0 300 0 0 0</pose>
+      <diffuse>0.9 0.9 0.9 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <direction>-0.3 0.2 -1</direction>
+      <cast_shadows>false</cast_shadows>
+    </light>
+    <model name="terrain">
+      <static>true</static>
+      <link name="link">
+        <collision name="ground">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>4000 4000</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="grass">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>4000 4000</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.24 0.42 0.23 1</ambient>
+            <diffuse>0.24 0.42 0.23 1</diffuse>
+          </material>
+        </visual>
+        <visual name="runway">
+          <pose>110 0 0.008 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>300 16 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.13 0.15 0.17 1</ambient>
+            <diffuse>0.13 0.15 0.17 1</diffuse>
+          </material>
+        </visual>
+        <visual name="centerline_0">
+          <pose>-20 0 0.02 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>6 0.35 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.95 0.95 0.90 1</ambient>
+            <diffuse>0.95 0.95 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="centerline_1">
+          <pose>-8 0 0.02 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>6 0.35 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.95 0.95 0.90 1</ambient>
+            <diffuse>0.95 0.95 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="centerline_2">
+          <pose>4 0 0.02 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>6 0.35 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.95 0.95 0.90 1</ambient>
+            <diffuse>0.95 0.95 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="centerline_3">
+          <pose>16 0 0.02 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>6 0.35 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.95 0.95 0.90 1</ambient>
+            <diffuse>0.95 0.95 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="centerline_4">
+          <pose>28 0 0.02 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>6 0.35 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.95 0.95 0.90 1</ambient>
+            <diffuse>0.95 0.95 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="centerline_5">
+          <pose>40 0 0.02 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>6 0.35 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.95 0.95 0.90 1</ambient>
+            <diffuse>0.95 0.95 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="centerline_6">
+          <pose>52 0 0.02 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>6 0.35 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.95 0.95 0.90 1</ambient>
+            <diffuse>0.95 0.95 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="centerline_7">
+          <pose>64 0 0.02 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>6 0.35 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.95 0.95 0.90 1</ambient>
+            <diffuse>0.95 0.95 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="centerline_8">
+          <pose>76 0 0.02 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>6 0.35 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.95 0.95 0.90 1</ambient>
+            <diffuse>0.95 0.95 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="centerline_9">
+          <pose>88 0 0.02 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>6 0.35 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.95 0.95 0.90 1</ambient>
+            <diffuse>0.95 0.95 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="centerline_10">
+          <pose>100 0 0.02 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>6 0.35 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.95 0.95 0.90 1</ambient>
+            <diffuse>0.95 0.95 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="centerline_11">
+          <pose>112 0 0.02 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>6 0.35 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.95 0.95 0.90 1</ambient>
+            <diffuse>0.95 0.95 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="centerline_12">
+          <pose>124 0 0.02 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>6 0.35 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.95 0.95 0.90 1</ambient>
+            <diffuse>0.95 0.95 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="centerline_13">
+          <pose>136 0 0.02 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>6 0.35 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.95 0.95 0.90 1</ambient>
+            <diffuse>0.95 0.95 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="centerline_14">
+          <pose>148 0 0.02 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>6 0.35 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.95 0.95 0.90 1</ambient>
+            <diffuse>0.95 0.95 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="centerline_15">
+          <pose>160 0 0.02 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>6 0.35 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.95 0.95 0.90 1</ambient>
+            <diffuse>0.95 0.95 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="centerline_16">
+          <pose>172 0 0.02 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>6 0.35 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.95 0.95 0.90 1</ambient>
+            <diffuse>0.95 0.95 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="centerline_17">
+          <pose>184 0 0.02 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>6 0.35 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.95 0.95 0.90 1</ambient>
+            <diffuse>0.95 0.95 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="centerline_18">
+          <pose>196 0 0.02 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>6 0.35 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.95 0.95 0.90 1</ambient>
+            <diffuse>0.95 0.95 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="centerline_19">
+          <pose>208 0 0.02 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>6 0.35 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.95 0.95 0.90 1</ambient>
+            <diffuse>0.95 0.95 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="centerline_20">
+          <pose>220 0 0.02 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>6 0.35 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.95 0.95 0.90 1</ambient>
+            <diffuse>0.95 0.95 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="centerline_21">
+          <pose>232 0 0.02 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>6 0.35 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.95 0.95 0.90 1</ambient>
+            <diffuse>0.95 0.95 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="centerline_22">
+          <pose>244 0 0.02 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>6 0.35 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.95 0.95 0.90 1</ambient>
+            <diffuse>0.95 0.95 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="edge_-7.3">
+          <pose>110 -7.3 0.02 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>300 0.25 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.95 0.95 0.90 1</ambient>
+            <diffuse>0.95 0.95 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="edge_7.3">
+          <pose>110 7.3 0.02 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>300 0.25 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.95 0.95 0.90 1</ambient>
+            <diffuse>0.95 0.95 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_0">
+          <pose>1204.3185797334975 4.315250265031472 0.035 0 0 0.7850125328833416</pose>
+          <geometry>
+            <box>
+              <size>12.210080387029404 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_1">
+          <pose>1212.9490802635605 12.91914584224417 0.035 0 0 0.7826918964764651</pose>
+          <geometry>
+            <box>
+              <size>12.16308177552827 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_2">
+          <pose>1221.559614250425 21.443390589287496 0.035 0 0 0.7780146339373826</pose>
+          <geometry>
+            <box>
+              <size>12.069528231446093 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_3">
+          <pose>1230.1369048747874 29.835429702696903 0.035 0 0 0.7709076473633613</pose>
+          <geometry>
+            <box>
+              <size>11.93030953264239 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_4">
+          <pose>1238.6677265761996 38.04352347070204 0.035 0 0 0.761258459589823</pose>
+          <geometry>
+            <box>
+              <size>11.74676665827101 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_5">
+          <pose>1247.1389254459236 46.017066265755005 0.035 0 0 0.7489117262031778</pose>
+          <geometry>
+            <box>
+              <size>11.520700110132262 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_6">
+          <pose>1255.5374395093077 53.706898545052255 0.035 0 0 0.7336644466043748</pose>
+          <geometry>
+            <box>
+              <size>11.254382286170511 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_7">
+          <pose>1263.8503188664024 61.06560993546321 0.035 0 0 0.7152597917950733</pose>
+          <geometry>
+            <box>
+              <size>10.95057506268452 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_8">
+          <pose>1272.0647456597685 68.04783153424613 0.035 0 0 0.6933795102366256</pose>
+          <geometry>
+            <box>
+              <size>10.612554084967798 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_9">
+          <pose>1280.168053838684 74.61051562342021 0.035 0 0 0.6676349954731362</pose>
+          <geometry>
+            <box>
+              <size>10.244141596232893 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_10">
+          <pose>1288.147748689277 80.7132010732618 0.035 0 0 0.6375573640425092</pose>
+          <geometry>
+            <box>
+              <size>9.849749867591585 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_11">
+          <pose>1295.9915261004671 86.3182627986238 0.035 0 0 0.6025874063190869</pose>
+          <geometry>
+            <box>
+              <size>9.434437244012235 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_12">
+          <pose>1303.6872915360152 91.39114373009718 0.035 0 0 0.5620672054738797</pose>
+          <geometry>
+            <box>
+              <size>9.00397812626178 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_13">
+          <pose>1311.2231786834195 95.9005678698353 0.035 0 0 0.515236815372379</pose>
+          <geometry>
+            <box>
+              <size>8.564946184216524 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_14">
+          <pose>1318.5875677509107 99.81873311848099 0.035 0 0 0.4612419420044257</pose>
+          <geometry>
+            <box>
+              <size>8.124805561386001 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_15">
+          <pose>1325.7691033843282 103.12148268435422 0.035 0 0 0.39916228471596027</pose>
+          <geometry>
+            <box>
+              <size>7.691995944265132 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_16">
+          <pose>1332.7567121762538 105.78845401810565 0.035 0 0 0.32807473353772926</pose>
+          <geometry>
+            <box>
+              <size>7.2759817677519045 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_17">
+          <pose>1339.539619740402 107.80320435460479 0.035 0 0 0.2471691693790704</pose>
+          <geometry>
+            <box>
+              <size>6.887211744313282 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_18">
+          <pose>1346.1073673249439 109.1533120880546 0.035 0 0 0.15593236379133152</pose>
+          <geometry>
+            <box>
+              <size>6.536904582785635 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_19">
+          <pose>1352.4498279391437 109.83045335532204 0.035 0 0 0.054398732126124505</pose>
+          <geometry>
+            <box>
+              <size>6.23655324141226 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_20">
+          <pose>1358.5572219684457 109.83045335532204 0.035 0 0 -0.05657347812962239</pose>
+          <geometry>
+            <box>
+              <size>5.997054617295332 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_21">
+          <pose>1364.4201322539288 109.1533120880546 0.035 0 0 -0.17510099707810275</pose>
+          <geometry>
+            <box>
+              <size>5.827468471011178 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_22">
+          <pose>1370.0295186128853 107.80320435460479 0.035 0 0 -0.29828980845922287</pose>
+          <geometry>
+            <box>
+              <size>5.733605586608336 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_23">
+          <pose>1375.3767317781262 105.78845401810567 0.035 0 0 -0.4225617221819109</pose>
+          <geometry>
+            <box>
+              <size>5.716861212129237 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_24">
+          <pose>1380.453526734524 103.12148268435422 0.035 0 0 -0.5442397205787624</pose>
+          <geometry>
+            <box>
+              <size>5.773762267626863 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_25">
+          <pose>1385.2520754322302 99.818733118481 0.035 0 0 -0.6601749257504856</pose>
+          <geometry>
+            <box>
+              <size>5.896455346366977 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_26">
+          <pose>1389.764978856958 95.90056786983531 0.035 0 0 -0.7681693446708112</pose>
+          <geometry>
+            <box>
+              <size>6.07394812945221 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_27">
+          <pose>1393.985278438728 91.39114373009718 0.035 0 0 -0.8670834507225291</pose>
+          <geometry>
+            <box>
+              <size>6.293632417636856 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_28">
+          <pose>1397.9064667814794 86.3182627986238 0.035 0 0 -0.95668785159046</pose>
+          <geometry>
+            <box>
+              <size>6.542634259674288 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_29">
+          <pose>1401.5224976970005 80.71320107326181 0.035 0 0 -1.0373976797534472</pose>
+          <geometry>
+            <box>
+              <size>6.80875564807175 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_30">
+          <pose>1404.827795527715 74.61051562342021 0.035 0 0 -1.1100076522395634</pose>
+          <geometry>
+            <box>
+              <size>7.080993442992817 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_31">
+          <pose>1407.8172637439402 68.04783153424614 0.035 0 0 -1.175486733760886</pose>
+          <geometry>
+            <box>
+              <size>7.349738617067288 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_32">
+          <pose>1410.486292802368 61.06560993546322 0.035 0 0 -1.2348435404932565</pose>
+          <geometry>
+            <box>
+              <size>7.606780252026982 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_33">
+          <pose>1412.8307672536457 53.70689854505227 0.035 0 0 -1.2890502390045264</pose>
+          <geometry>
+            <box>
+              <size>7.8452126454020155 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_34">
+          <pose>1414.8470720880998 46.01706626575502 0.035 0 0 -1.3390069956793031</pose>
+          <geometry>
+            <box>
+              <size>8.059308222361008 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_35">
+          <pose>1416.5320983098204 38.043523470702056 0.035 0 0 -1.3855314760348223</pose>
+          <geometry>
+            <box>
+              <size>8.244390326707931 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_36">
+          <pose>1417.883247730507 29.83542970269692 0.035 0 0 -1.4293624423063118</pose>
+          <geometry>
+            <box>
+              <size>8.396721548591524 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_37">
+          <pose>1418.8984369756859 21.44339058928751 0.035 0 0 -1.4711705683156187</pose>
+          <geometry>
+            <box>
+              <size>8.513412990638919 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_38">
+          <pose>1419.5761006971236 12.919145842244182 0.035 0 0 -1.5115725190328106</pose>
+          <geometry>
+            <box>
+              <size>8.592354888468194 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_39">
+          <pose>1419.9151939864796 4.3152502650314855 0.035 0 0 -1.5511462270901657</pose>
+          <geometry>
+            <box>
+              <size>8.63216703030784 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_40">
+          <pose>1419.9151939864796 -4.315250265031434 0.035 0 0 -1.5904464264996276</pose>
+          <geometry>
+            <box>
+              <size>8.632167030307794 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_41">
+          <pose>1419.5761006971236 -12.91914584224413 0.035 0 0 -1.6300201345569822</pose>
+          <geometry>
+            <box>
+              <size>8.59235488846824 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_42">
+          <pose>1418.8984369756859 -21.443390589287482 0.035 0 0 -1.6704220852741745</pose>
+          <geometry>
+            <box>
+              <size>8.513412990638919 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_43">
+          <pose>1417.883247730507 -29.83542970269687 0.035 0 0 -1.7122302112834822</pose>
+          <geometry>
+            <box>
+              <size>8.396721548591481 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_44">
+          <pose>1416.5320983098204 -38.04352347070201 0.035 0 0 -1.75606117755497</pose>
+          <geometry>
+            <box>
+              <size>8.244390326707972 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_45">
+          <pose>1414.8470720880998 -46.017066265755 0.035 0 0 -1.802585657910483</pose>
+          <geometry>
+            <box>
+              <size>8.059308222361 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_46">
+          <pose>1412.8307672536457 -53.70689854505227 0.035 0 0 -1.8525424145852722</pose>
+          <geometry>
+            <box>
+              <size>7.845212645402072 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_47">
+          <pose>1410.486292802368 -61.065609935463215 0.035 0 0 -1.906749113096539</pose>
+          <geometry>
+            <box>
+              <size>7.606780252026936 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_48">
+          <pose>1407.8172637439402 -68.04783153424609 0.035 0 0 -1.9661059198289015</pose>
+          <geometry>
+            <box>
+              <size>7.34973861706724 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_49">
+          <pose>1404.827795527715 -74.61051562342018 0.035 0 0 -2.0315850013502343</pose>
+          <geometry>
+            <box>
+              <size>7.080993442992881 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_50">
+          <pose>1401.5224976970005 -80.71320107326179 0.035 0 0 -2.104194973836334</pose>
+          <geometry>
+            <box>
+              <size>6.808755648071667 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_51">
+          <pose>1397.9064667814796 -86.31826279862379 0.035 0 0 -2.1849048019993367</pose>
+          <geometry>
+            <box>
+              <size>6.542634259674355 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_52">
+          <pose>1393.985278438728 -91.39114373009718 0.035 0 0 -2.2745092028672698</pose>
+          <geometry>
+            <box>
+              <size>6.293632417636904 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_53">
+          <pose>1389.764978856958 -95.90056786983531 0.035 0 0 -2.3734233089189853</pose>
+          <geometry>
+            <box>
+              <size>6.073948129452191 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_54">
+          <pose>1385.2520754322302 -99.818733118481 0.035 0 0 -2.481417727839304</pose>
+          <geometry>
+            <box>
+              <size>5.896455346366995 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_55">
+          <pose>1380.453526734524 -103.12148268435422 0.035 0 0 -2.597352933011035</pose>
+          <geometry>
+            <box>
+              <size>5.773762267626849 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_56">
+          <pose>1375.3767317781262 -105.78845401810565 0.035 0 0 -2.7190309314078807</pose>
+          <geometry>
+            <box>
+              <size>5.716861212129179 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_57">
+          <pose>1370.0295186128853 -107.80320435460477 0.035 0 0 -2.843302845130571</pose>
+          <geometry>
+            <box>
+              <size>5.733605586608395 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_58">
+          <pose>1364.4201322539288 -109.1533120880546 0.035 0 0 -2.9664916565116863</pose>
+          <geometry>
+            <box>
+              <size>5.827468471011124 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_59">
+          <pose>1358.5572219684457 -109.83045335532204 0.035 0 0 -3.0850191754601712</pose>
+          <geometry>
+            <box>
+              <size>5.9970546172953885 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_60">
+          <pose>1352.4498279391437 -109.83045335532204 0.035 0 0 3.0871939214636686</pose>
+          <geometry>
+            <box>
+              <size>6.23655324141226 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_61">
+          <pose>1346.1073673249439 -109.1533120880546 0.035 0 0 2.985660289798462</pose>
+          <geometry>
+            <box>
+              <size>6.536904582785635 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_62">
+          <pose>1339.539619740402 -107.80320435460479 0.035 0 0 2.894423484210723</pose>
+          <geometry>
+            <box>
+              <size>6.887211744313282 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_63">
+          <pose>1332.7567121762538 -105.78845401810565 0.035 0 0 2.8135179200520635</pose>
+          <geometry>
+            <box>
+              <size>7.275981767751847 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_64">
+          <pose>1325.7691033843284 -103.12148268435423 0.035 0 0 2.7424303688738347</pose>
+          <geometry>
+            <box>
+              <size>7.691995944265127 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_65">
+          <pose>1318.5875677509107 -99.81873311848102 0.035 0 0 2.6803507115853678</pose>
+          <geometry>
+            <box>
+              <size>8.124805561386001 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_66">
+          <pose>1311.2231786834195 -95.90056786983533 0.035 0 0 2.6263558382174157</pose>
+          <geometry>
+            <box>
+              <size>8.564946184216517 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_67">
+          <pose>1303.6872915360152 -91.39114373009721 0.035 0 0 2.5795254481159144</pose>
+          <geometry>
+            <box>
+              <size>9.003978126261842 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_68">
+          <pose>1295.9915261004671 -86.3182627986238 0.035 0 0 2.5390052472707083</pose>
+          <geometry>
+            <box>
+              <size>9.43443724401229 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_69">
+          <pose>1288.147748689277 -80.71320107326181 0.035 0 0 2.5040352895472795</pose>
+          <geometry>
+            <box>
+              <size>9.849749867591477 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_70">
+          <pose>1280.168053838684 -74.61051562342021 0.035 0 0 2.4739576581166594</pose>
+          <geometry>
+            <box>
+              <size>10.244141596233018 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_71">
+          <pose>1272.0647456597685 -68.04783153424611 0.035 0 0 2.448213143353167</pose>
+          <geometry>
+            <box>
+              <size>10.612554084967728 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_72">
+          <pose>1263.8503188664024 -61.06560993546325 0.035 0 0 2.426332861794717</pose>
+          <geometry>
+            <box>
+              <size>10.950575062684395 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_73">
+          <pose>1255.537439509308 -53.7068985450523 0.035 0 0 2.4079282069854187</pose>
+          <geometry>
+            <box>
+              <size>11.254382286170587 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_74">
+          <pose>1247.1389254459236 -46.017066265755055 0.035 0 0 2.3926809273866154</pose>
+          <geometry>
+            <box>
+              <size>11.520700110132188 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_75">
+          <pose>1238.6677265761996 -38.04352347070209 0.035 0 0 2.3803341939999707</pose>
+          <geometry>
+            <box>
+              <size>11.746766658271087 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_76">
+          <pose>1230.1369048747874 -29.835429702696903 0.035 0 0 2.370685006226436</pose>
+          <geometry>
+            <box>
+              <size>11.930309532642502 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_77">
+          <pose>1221.559614250425 -21.443390589287496 0.035 0 0 2.3635780196524068</pose>
+          <geometry>
+            <box>
+              <size>12.06952823144598 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_78">
+          <pose>1212.9490802635605 -12.919145842244173 0.035 0 0 2.3589007571133322</pose>
+          <geometry>
+            <box>
+              <size>12.163081775528383 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_79">
+          <pose>1204.3185797334975 -4.315250265031475 0.035 0 0 2.3565801207064494</pose>
+          <geometry>
+            <box>
+              <size>12.21008038702931 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_80">
+          <pose>1195.6814202665025 4.315250265031421 0.035 0 0 2.356580120706451</pose>
+          <geometry>
+            <box>
+              <size>12.210080387029327 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_81">
+          <pose>1187.0509197364395 12.919145842244069 0.035 0 0 2.3589007571133296</pose>
+          <geometry>
+            <box>
+              <size>12.163081775528212 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_82">
+          <pose>1178.440385749575 21.44339058928744 0.035 0 0 2.3635780196524085</pose>
+          <geometry>
+            <box>
+              <size>12.069528231446279 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_83">
+          <pose>1169.8630951252126 29.8354297026969 0.035 0 0 2.3706850062264335</pose>
+          <geometry>
+            <box>
+              <size>11.930309532642335 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_84">
+          <pose>1161.3322734238004 38.04352347070204 0.035 0 0 2.3803341939999707</pose>
+          <geometry>
+            <box>
+              <size>11.746766658271087 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_85">
+          <pose>1152.8610745540764 46.017066265755005 0.035 0 0 2.3926809273866163</pose>
+          <geometry>
+            <box>
+              <size>11.520700110132212 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_86">
+          <pose>1144.4625604906923 53.70689854505221 0.035 0 0 2.4079282069854173</pose>
+          <geometry>
+            <box>
+              <size>11.254382286170445 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_87">
+          <pose>1136.1496811335978 61.06560993546312 0.035 0 0 2.4263328617947204</pose>
+          <geometry>
+            <box>
+              <size>10.950575062684438 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_88">
+          <pose>1127.9352543402315 68.04783153424607 0.035 0 0 2.448213143353166</pose>
+          <geometry>
+            <box>
+              <size>10.61255408496796 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_89">
+          <pose>1119.831946161316 74.61051562342021 0.035 0 0 2.473957658116658</pose>
+          <geometry>
+            <box>
+              <size>10.244141596232884 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_90">
+          <pose>1111.8522513107232 80.71320107326179 0.035 0 0 2.50403528954728</pose>
+          <geometry>
+            <box>
+              <size>9.849749867591509 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_91">
+          <pose>1104.0084738995329 86.31826279862378 0.035 0 0 2.53900524727071</pose>
+          <geometry>
+            <box>
+              <size>9.434437244012313 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_92">
+          <pose>1096.3127084639848 91.39114373009716 0.035 0 0 2.5795254481159127</pose>
+          <geometry>
+            <box>
+              <size>9.003978126261716 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_93">
+          <pose>1088.7768213165805 95.9005678698353 0.035 0 0 2.6263558382174135</pose>
+          <geometry>
+            <box>
+              <size>8.564946184216657 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_94">
+          <pose>1081.4124322490893 99.81873311848102 0.035 0 0 2.680350711585367</pose>
+          <geometry>
+            <box>
+              <size>8.124805561385955 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_95">
+          <pose>1074.2308966156718 103.12148268435422 0.035 0 0 2.742430368873834</pose>
+          <geometry>
+            <box>
+              <size>7.691995944265114 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_96">
+          <pose>1067.2432878237462 105.78845401810565 0.035 0 0 2.8135179200520644</pose>
+          <geometry>
+            <box>
+              <size>7.275981767751873 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_97">
+          <pose>1060.4603802595982 107.80320435460476 0.035 0 0 2.894423484210723</pose>
+          <geometry>
+            <box>
+              <size>6.887211744313223 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_98">
+          <pose>1053.8926326750563 109.1533120880546 0.035 0 0 2.985660289798461</pose>
+          <geometry>
+            <box>
+              <size>6.5369045827857795 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_99">
+          <pose>1047.550172060856 109.83045335532204 0.035 0 0 3.087193921463668</pose>
+          <geometry>
+            <box>
+              <size>6.2365532414121745 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_100">
+          <pose>1041.4427780315543 109.83045335532204 0.035 0 0 -3.0850191754601712</pose>
+          <geometry>
+            <box>
+              <size>5.99705461729536 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_101">
+          <pose>1035.5798677460712 109.15331208805462 0.035 0 0 -2.966491656511691</pose>
+          <geometry>
+            <box>
+              <size>5.8274684710111195 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_102">
+          <pose>1029.9704813871147 107.80320435460482 0.035 0 0 -2.8433028451305704</pose>
+          <geometry>
+            <box>
+              <size>5.733605586608336 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_103">
+          <pose>1024.6232682218738 105.78845401810568 0.035 0 0 -2.719030931407884</pose>
+          <geometry>
+            <box>
+              <size>5.716861212129294 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_104">
+          <pose>1019.5464732654758 103.12148268435422 0.035 0 0 -2.597352933011031</pose>
+          <geometry>
+            <box>
+              <size>5.773762267626863 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_105">
+          <pose>1014.7479245677698 99.81873311848099 0.035 0 0 -2.481417727839305</pose>
+          <geometry>
+            <box>
+              <size>5.896455346367026 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_106">
+          <pose>1010.2350211430421 95.9005678698353 0.035 0 0 -2.373423308918984</pose>
+          <geometry>
+            <box>
+              <size>6.073948129452121 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_107">
+          <pose>1006.0147215612719 91.39114373009721 0.035 0 0 -2.274509202867271</pose>
+          <geometry>
+            <box>
+              <size>6.293632417636894 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_108">
+          <pose>1002.0935332185206 86.31826279862389 0.035 0 0 -2.1849048019993336</pose>
+          <geometry>
+            <box>
+              <size>6.542634259674186 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_109">
+          <pose>998.4775023029995 80.71320107326186 0.035 0 0 -2.1041949738363415</pose>
+          <geometry>
+            <box>
+              <size>6.808755648071913 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_110">
+          <pose>995.1722044722852 74.61051562342023 0.035 0 0 -2.0315850013502326</pose>
+          <geometry>
+            <box>
+              <size>7.080993442992716 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_111">
+          <pose>992.1827362560599 68.04783153424617 0.035 0 0 -1.9661059198289006</pose>
+          <geometry>
+            <box>
+              <size>7.34973861706733 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_112">
+          <pose>989.5137071976319 61.065609935463215 0.035 0 0 -1.9067491130965397</pose>
+          <geometry>
+            <box>
+              <size>7.606780252027005 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_113">
+          <pose>987.1692327463544 53.70689854505232 0.035 0 0 -1.8525424145852714</pose>
+          <geometry>
+            <box>
+              <size>7.845212645401893 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_114">
+          <pose>985.1529279119002 46.01706626575502 0.035 0 0 -1.8025856579104835</pose>
+          <geometry>
+            <box>
+              <size>8.059308222361228 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_115">
+          <pose>983.4679016901795 38.04352347070201 0.035 0 0 -1.7560611775549673</pose>
+          <geometry>
+            <box>
+              <size>8.24439032670778 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_116">
+          <pose>982.116752269493 29.83542970269692 0.035 0 0 -1.7122302112834873</pose>
+          <geometry>
+            <box>
+              <size>8.39672154859158 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_117">
+          <pose>981.101563024314 21.44339058928756 0.035 0 0 -1.6704220852741762</pose>
+          <geometry>
+            <box>
+              <size>8.513412990638777 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_118">
+          <pose>980.4238993028764 12.91914584224428 0.035 0 0 -1.6300201345569822</pose>
+          <geometry>
+            <box>
+              <size>8.592354888468238 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_119">
+          <pose>980.0848060135205 4.315250265031537 0.035 0 0 -1.5904464264996274</pose>
+          <geometry>
+            <box>
+              <size>8.63216703030789 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_120">
+          <pose>980.0848060135205 -4.315250265031455 0.035 0 0 -1.5511462270901657</pose>
+          <geometry>
+            <box>
+              <size>8.63216703030789 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_121">
+          <pose>980.4238993028764 -12.919145842244202 0.035 0 0 -1.5115725190328109</pose>
+          <geometry>
+            <box>
+              <size>8.592354888468241 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_122">
+          <pose>981.101563024314 -21.44339058928748 0.035 0 0 -1.471170568315617</pose>
+          <geometry>
+            <box>
+              <size>8.513412990638773 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_123">
+          <pose>982.116752269493 -29.835429702696842 0.035 0 0 -1.4293624423063094</pose>
+          <geometry>
+            <box>
+              <size>8.39672154859158 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_124">
+          <pose>983.4679016901795 -38.04352347070194 0.035 0 0 -1.3855314760348258</pose>
+          <geometry>
+            <box>
+              <size>8.24439032670778 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_125">
+          <pose>985.1529279119002 -46.01706626575495 0.035 0 0 -1.3390069956793098</pose>
+          <geometry>
+            <box>
+              <size>8.059308222361235 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_126">
+          <pose>987.1692327463544 -53.70689854505225 0.035 0 0 -1.2890502390045218</pose>
+          <geometry>
+            <box>
+              <size>7.845212645401893 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_127">
+          <pose>989.5137071976319 -61.06560993546315 0.035 0 0 -1.234843540493254</pose>
+          <geometry>
+            <box>
+              <size>7.6067802520270185 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_128">
+          <pose>992.1827362560598 -68.04783153424611 0.035 0 0 -1.1754867337608927</pose>
+          <geometry>
+            <box>
+              <size>7.34973861706733 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_129">
+          <pose>995.1722044722852 -74.61051562342016 0.035 0 0 -1.1100076522395599</pose>
+          <geometry>
+            <box>
+              <size>7.080993442992702 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_130">
+          <pose>998.4775023029995 -80.71320107326179 0.035 0 0 -1.0373976797534528</pose>
+          <geometry>
+            <box>
+              <size>6.808755648071926 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_131">
+          <pose>1002.0935332185206 -86.31826279862383 0.035 0 0 -0.9566878515904644</pose>
+          <geometry>
+            <box>
+              <size>6.54263425967418 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_132">
+          <pose>1006.0147215612718 -91.39114373009718 0.035 0 0 -0.8670834507225168</pose>
+          <geometry>
+            <box>
+              <size>6.293632417636941 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_133">
+          <pose>1010.2350211430421 -95.90056786983527 0.035 0 0 -0.7681693446708125</pose>
+          <geometry>
+            <box>
+              <size>6.0739481294521 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_134">
+          <pose>1014.7479245677698 -99.81873311848096 0.035 0 0 -0.6601749257504913</pose>
+          <geometry>
+            <box>
+              <size>5.896455346367003 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_135">
+          <pose>1019.5464732654758 -103.12148268435419 0.035 0 0 -0.5442397205787598</pose>
+          <geometry>
+            <box>
+              <size>5.773762267626888 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_136">
+          <pose>1024.6232682218738 -105.78845401810565 0.035 0 0 -0.4225617221819111</pose>
+          <geometry>
+            <box>
+              <size>5.716861212129269 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_137">
+          <pose>1029.9704813871147 -107.80320435460479 0.035 0 0 -0.29828980845922376</pose>
+          <geometry>
+            <box>
+              <size>5.733605586608367 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_138">
+          <pose>1035.5798677460712 -109.1533120880546 0.035 0 0 -0.17510099707810445</pose>
+          <geometry>
+            <box>
+              <size>5.827468471011122 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_139">
+          <pose>1041.4427780315543 -109.83045335532204 0.035 0 0 -0.05657347812962239</pose>
+          <geometry>
+            <box>
+              <size>5.997054617295332 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_140">
+          <pose>1047.550172060856 -109.83045335532205 0.035 0 0 0.05439873212612347</pose>
+          <geometry>
+            <box>
+              <size>6.236553241412118 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_141">
+          <pose>1053.8926326750561 -109.1533120880546 0.035 0 0 0.15593236379133107</pose>
+          <geometry>
+            <box>
+              <size>6.536904582785836 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_142">
+          <pose>1060.460380259598 -107.80320435460479 0.035 0 0 0.24716916937906946</pose>
+          <geometry>
+            <box>
+              <size>6.887211744313134 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_143">
+          <pose>1067.2432878237462 -105.78845401810568 0.035 0 0 0.32807473353772676</pose>
+          <geometry>
+            <box>
+              <size>7.275981767751959 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_144">
+          <pose>1074.2308966156718 -103.12148268435422 0.035 0 0 0.3991622847159608</pose>
+          <geometry>
+            <box>
+              <size>7.691995944265196 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_145">
+          <pose>1081.4124322490893 -99.81873311848103 0.035 0 0 0.46124194200442564</pose>
+          <geometry>
+            <box>
+              <size>8.124805561385841 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_146">
+          <pose>1088.7768213165805 -95.90056786983531 0.035 0 0 0.5152368153723791</pose>
+          <geometry>
+            <box>
+              <size>8.564946184216753 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_147">
+          <pose>1096.3127084639848 -91.39114373009717 0.035 0 0 0.5620672054738798</pose>
+          <geometry>
+            <box>
+              <size>9.003978126261645 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_148">
+          <pose>1104.0084738995326 -86.31826279862382 0.035 0 0 0.6025874063190847</pose>
+          <geometry>
+            <box>
+              <size>9.43443724401229 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_149">
+          <pose>1111.852251310723 -80.71320107326187 0.035 0 0 0.6375573640425114</pose>
+          <geometry>
+            <box>
+              <size>9.84974986759139 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_150">
+          <pose>1119.8319461613157 -74.6105156234203 0.035 0 0 0.6676349954731343</pose>
+          <geometry>
+            <box>
+              <size>10.244141596232986 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_151">
+          <pose>1127.9352543402315 -68.04783153424617 0.035 0 0 0.693379510236627</pose>
+          <geometry>
+            <box>
+              <size>10.612554084967847 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_152">
+          <pose>1136.1496811335976 -61.06560993546323 0.035 0 0 0.7152597917950708</pose>
+          <geometry>
+            <box>
+              <size>10.950575062684571 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_153">
+          <pose>1144.4625604906923 -53.70689854505224 0.035 0 0 0.7336644466043764</pose>
+          <geometry>
+            <box>
+              <size>11.254382286170566 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_154">
+          <pose>1152.8610745540764 -46.017066265755034 0.035 0 0 0.748911726203178</pose>
+          <geometry>
+            <box>
+              <size>11.520700110132072 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_155">
+          <pose>1161.3322734238004 -38.04352347070212 0.035 0 0 0.7612584595898217</pose>
+          <geometry>
+            <box>
+              <size>11.746766658271076 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_156">
+          <pose>1169.8630951252123 -29.835429702697027 0.035 0 0 0.7709076473633595</pose>
+          <geometry>
+            <box>
+              <size>11.930309532642212 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_157">
+          <pose>1178.440385749575 -21.44339058928757 0.035 0 0 0.7780146339373851</pose>
+          <geometry>
+            <box>
+              <size>12.069528231446402 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_158">
+          <pose>1187.0509197364395 -12.9191458422442 0.035 0 0 0.7826918964764633</pose>
+          <geometry>
+            <box>
+              <size>12.163081775528088 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+        <visual name="path_159">
+          <pose>1195.6814202665023 -4.315250265031549 0.035 0 0 0.7850125328833427</pose>
+          <geometry>
+            <box>
+              <size>12.210080387029457 0.8 0.015</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.85 0.90 1</ambient>
+            <diffuse>0.15 0.85 0.90 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <include>
+      <uri>model://fixed_wing</uri>
+      <name>fixed_wing</name>
+      <pose>0 0 0.32 0 0 0</pose>
+    </include>
+  </world>
+</sdf>

@@ -1,0 +1,14 @@
+empy==3.3.4
+kconfiglib==14.1.0
+pyros-genmsg==0.5.8
+pymavlink==2.4.50
+pyserial
+pyulog
+jinja2
+jsonschema
+packaging
+pyyaml
+toml
+future
+sympy
+setuptools<81

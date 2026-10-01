@@ -1,0 +1,16 @@
+diff --git a/platforms/posix/src/px4/common/drv_hrt.cpp b/platforms/posix/src/px4/common/drv_hrt.cpp
+index b510229..7f6d3a5 100644
+--- a/platforms/posix/src/px4/common/drv_hrt.cpp
++++ b/platforms/posix/src/px4/common/drv_hrt.cpp
+@@ -451,6 +451,11 @@ hrt_call_invoke()
+ 
+ 		/* if the callout has a non-zero period, it has to be re-entered */
+ 		if (call->period != 0) {
++			// The callback runs without hrt_lock. Another thread may have
++			// requeued this entry meanwhile; remove it before reinsertion.
++			// Otherwise inserting it twice creates a self-linked timer queue.
++			sq_rem(&call->link, &callout_queue);
++
+ 			// re-check call->deadline to allow for
+ 			// callouts to re-schedule themselves
+ 			// using hrt_call_delay()
