@@ -1,6 +1,7 @@
 """Six independent PX4 fixed-wing SITL instances and a shared deconflicted path."""
 import copy
 import json
+import math
 import os
 from pathlib import Path
 import xml.etree.ElementTree as ET
@@ -14,6 +15,72 @@ from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
 
+def configure_visualization(world, camera_mode, camera_view, near_clip, update_rate):
+    """Change rendering and GUI state delivery without touching flight physics."""
+    views = {
+        'overview': '700 -850 650 0 0.59 1.57079632679',
+        'flight': '1200 -360 300 0 0.507 1.57079632679',
+        'takeoff': '110 -220 140 0 0.534 1.57079632679',
+    }
+    if camera_mode not in ('fixed', 'follow') or camera_view not in views:
+        raise ValueError('camera_mode must be fixed/follow; camera_view must be overview/flight/takeoff')
+    if not math.isfinite(near_clip) or not 0 < near_clip < 100:
+        raise ValueError('camera_near_clip must be finite and between 0 and 100 metres')
+    if not 1 <= update_rate <= 120:
+        raise ValueError('gui_update_rate must be between 1 and 120 Hz')
+    scene = world.find("gui/plugin[@filename='MinimalScene']")
+    scene.find('camera_pose').text = views[camera_view]
+    clip = ET.SubElement(scene, 'camera_clip')
+    ET.SubElement(clip, 'near').text = str(near_clip)
+    ET.SubElement(clip, 'far').text = '5000'
+    tracking = world.find("gui/plugin[@filename='CameraTracking']")
+    # Fixed cameras never receive the delayed follow commands below.
+    if camera_mode == 'follow':
+        tracking.find('follow_target').text = 'uav_3'
+    else:
+        # CameraTracking's loader expects non-null text if this tag exists.
+        tracking.remove(tracking.find('follow_target'))
+    tracking.find('follow_offset').text = '-220 -380 200'
+    broadcaster = world.find("plugin[@name='gz::sim::systems::SceneBroadcaster']")
+    # 50 Hz matches five 4 ms physics steps at real_time_factor=1.
+    ET.SubElement(broadcaster, 'state_hertz').text = str(update_rate)
+    ET.SubElement(broadcaster, 'dynamic_pose_hertz').text = str(update_rate)
+    terrain = world.find("model[@name='terrain']/link")
+    # Keep the finite grass visual's edge outside the recording camera frustum.
+    terrain.find("visual[@name='grass']/geometry/plane/size").text = '20000 20000'
+    for visual in terrain.findall('visual'):
+        name = visual.get('name', '')
+        # These boxes are visual only. Leave collision ground at z=0.
+        if name == 'runway':
+            height = 0.05
+        elif name.startswith('centerline_'):
+            height = 0.10
+        elif name.startswith('path_'):
+            height = 0.15
+        else:
+            continue
+        if height is not None:
+            pose = visual.find('pose')
+            values = pose.text.split()
+            values[2] = str(height)
+            pose.text = ' '.join(values)
+    gui = world.find('gui')
+    screenshot = ET.SubElement(gui, 'plugin', filename='Screenshot', name='Screenshot')
+    recorder = ET.SubElement(gui, 'plugin', filename='VideoRecorder', name='Video recorder')
+    for plugin in (screenshot, recorder):
+        settings = ET.SubElement(plugin, 'gz-gui')
+        ET.SubElement(settings, 'property', type='string', key='state').text = 'floating'
+        ET.SubElement(settings, 'property', type='double', key='width').text = '240'
+        ET.SubElement(settings, 'property', type='double', key='height').text = '90'
+        ET.SubElement(settings, 'property', type='double', key='x').text = '10'
+        ET.SubElement(settings, 'property', type='double', key='y').text = '10' if plugin is screenshot else '110'
+    recording = ET.SubElement(recorder, 'record_video')
+    ET.SubElement(recording, 'use_sim_time').text = 'true'
+    # GUI lockstep can block wall-clock PX4 sensor delivery; keep it disabled.
+    ET.SubElement(recording, 'lockstep').text = 'false'
+    ET.SubElement(recording, 'bitrate').text = '8000000'
+
+
 def setup(context):
     share=Path(get_package_share_directory('fixed_wing_demo'))
     prefix=Path(get_package_prefix('fixed_wing_demo'));workspace=prefix.parent.parent
@@ -23,17 +90,17 @@ def setup(context):
         raise RuntimeError('PX4 binary or Python environment missing; run build_px4_sitl.sh')
     gui=LaunchConfiguration('gui').perform(context).lower()=='true'
     stop=LaunchConfiguration('stop_after_one_lap').perform(context).lower()=='true'
+    camera_mode=LaunchConfiguration('camera_mode').perform(context)
+    camera_view=LaunchConfiguration('camera_view').perform(context)
+    near_clip=float(LaunchConfiguration('camera_near_clip').perform(context))
+    update_rate=int(LaunchConfiguration('gui_update_rate').perform(context))
     count=6;spacing=18.0
     run=Path.home()/'.ros/fixed_wing_demo'/f'swarm_{os.getpid()}'
     run.mkdir(parents=True,exist_ok=True)
     tree=ET.ElementTree(ET.fromstring((share/'worlds/airfield.sdf').read_text().replace('@REAL_TIME_FACTOR@','1.0')))
     world=tree.getroot().find('world')
     for element in list(world.findall('include')):world.remove(element)
-    scene=world.find("gui/plugin[@filename='MinimalScene']/camera_pose")
-    scene.text='-170 -350 210 0 0.47 1.05'
-    tracking=world.find("gui/plugin[@filename='CameraTracking']")
-    tracking.find('follow_target').text='uav_3'
-    tracking.find('follow_offset').text='-220 -380 200'
+    configure_visualization(world,camera_mode,camera_view,near_clip,update_rate)
     terrain=world.find("model[@name='terrain']/link")
     # Six clearly marked parallel takeoff lanes on the original flat airfield.
     visuals=[v for v in terrain.findall('visual') if v.get('name')=='runway' or v.get('name','').startswith('centerline_')]
@@ -82,6 +149,8 @@ def setup(context):
     tree.write(run/'airfield.sdf',encoding='unicode',xml_declaration=True)
     (run/'bridge.yaml').write_text(yaml.safe_dump(bridges))
     (run/'vehicles.json').write_text(json.dumps(manifest,indent=2)+'\n')
+    (run/'visualization.json').write_text(json.dumps({'camera_mode':camera_mode,'camera_view':camera_view,
+        'near_clip_m':near_clip,'far_clip_m':5000,'gui_update_rate_hz':update_rate},indent=2)+'\n')
     command=['gz','sim','-r','-v','2','--render-engine-gui','ogre']
     if not gui:command.append('-s')
     gazebo=ExecuteProcess(cmd=command+[str(run/'airfield.sdf')],output='screen')
@@ -100,7 +169,7 @@ def setup(context):
     actions += immediate+supervisors
     for child in [gazebo,transport,coordinator]+children:
         actions.append(RegisterEventHandler(OnProcessExit(target_action=child,on_exit=[EmitEvent(event=Shutdown(reason='A required swarm process exited'))])))
-    if gui:
+    if gui and camera_mode=='follow':
         for delay in [7.0,14.0]:
             actions.append(TimerAction(period=delay,actions=[ExecuteProcess(cmd=['gz','topic','-t','/gui/track','-m','gz.msgs.CameraTrack','-p',
                 'track_mode: FOLLOW follow_target {name: "uav_3"} follow_offset {x: -220 y: -380 z: 200} follow_pgain: 0.12 track_pgain: 0.12'],output='log')]))
@@ -113,5 +182,9 @@ def generate_launch_description():
         DeclareLaunchArgument('gui',default_value='true',description='Open Gazebo visualization'),
         DeclareLaunchArgument('ros_domain_id',default_value='44',description='ROS domain for six-vehicle swarm'),
         DeclareLaunchArgument('stop_after_one_lap',default_value='false',description='Validation: exit after all six complete one lap'),
+        DeclareLaunchArgument('camera_mode',default_value='fixed',description='fixed for recording; follow for the original aircraft-relative camera'),
+        DeclareLaunchArgument('camera_view',default_value='overview',description='Fixed camera framing: overview, flight, or takeoff'),
+        DeclareLaunchArgument('camera_near_clip',default_value='1.0',description='Near clip in metres; larger values improve distant depth precision'),
+        DeclareLaunchArgument('gui_update_rate',default_value='50',description='GUI state and dynamic pose publication rate in Hz'),
         DeclareLaunchArgument('px4_root',default_value=str(workspace/'src/PX4-Autopilot')),
         OpaqueFunction(function=setup)])
